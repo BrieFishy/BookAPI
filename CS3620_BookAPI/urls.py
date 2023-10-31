@@ -15,8 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from BookAPI.views import *
+from django.conf.urls.static import static
+from django.conf import settings
+
+router = routers.SimpleRouter()
+router.register('books', BookViewSet)
+router.register('fantasy', FantasyViewSet)
+router.register('childrens', ChildrensViewSet)
+router.register('nonfiction', NonfictionViewSet)
+router.register('historical', HistoricalViewSet)
+router.register('romance', RomanceViewSet)
+router.register('comedy', ComedyViewSet)
+router.register('adventure', AdventureViewSet)
+router.register('science', ScienceFictionViewSet)
+router.register('mystery', MysteryViewSet)
+router.register('poetry', PoetryViewSet)
 
 urlpatterns = [
+    path("", include(router.urls)),
     path("admin/", admin.site.urls),
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
